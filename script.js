@@ -11,6 +11,12 @@ let shuffledQuestions = [];
 let currentQuestion = '';
 let seenCount = 0;
 
+function setStatus(message) {
+  if (statusEl) {
+    statusEl.textContent = message;
+  }
+}
+
 function parseQuestionsCsv(csvText) {
   const lines = csvText.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
 
@@ -38,12 +44,16 @@ function shuffle(values) {
 }
 
 function refreshCounter() {
-  counterEl.textContent = `${seenCount} / ${questions.length || 0}`;
+  if (counterEl) {
+    counterEl.textContent = `${seenCount} / ${questions.length || 0}`;
+  }
 }
 
 function renderQuestion(question) {
   currentQuestion = question;
-  questionEl.textContent = question;
+  if (questionEl) {
+    questionEl.textContent = question;
+  }
   seenCount += 1;
   refreshCounter();
 }
@@ -56,15 +66,15 @@ function nextQuestion() {
 
   const next = shuffledQuestions.pop();
   renderQuestion(next);
-  statusEl.textContent = 'Ready for the next round.';
+  setStatus('Ready for the next round.');
 }
 
 async function copyQuestion() {
   try {
     await navigator.clipboard.writeText(currentQuestion);
-    statusEl.textContent = 'Question copied to clipboard.';
+    setStatus('Question copied to clipboard.');
   } catch {
-    statusEl.textContent = 'Copy failed. Select the question and copy it manually.';
+    setStatus('Copy failed. Select the question and copy it manually.');
   }
 }
 
@@ -85,14 +95,26 @@ async function loadQuestions() {
   shuffledQuestions = shuffle(questions);
   seenCount = 0;
   nextQuestion();
-  nextBtn.disabled = false;
-  copyBtn.disabled = false;
-  statusEl.textContent = 'Loaded from questions.csv.';
+
+  if (nextBtn) {
+    nextBtn.disabled = false;
+  }
+
+  if (copyBtn) {
+    copyBtn.disabled = false;
+  }
+
+  setStatus('Loaded from questions.csv.');
   refreshCounter();
 }
 
-nextBtn.addEventListener('click', nextQuestion);
-copyBtn.addEventListener('click', copyQuestion);
+if (nextBtn) {
+  nextBtn.addEventListener('click', nextQuestion);
+}
+
+if (copyBtn) {
+  copyBtn.addEventListener('click', copyQuestion);
+}
 
 document.addEventListener('keydown', (event) => {
   if (event.key === ' ' || event.key === 'Enter') {
@@ -102,9 +124,19 @@ document.addEventListener('keydown', (event) => {
 });
 
 loadQuestions().catch((error) => {
-  statusEl.textContent = 'Unable to load questions.csv.';
-  questionEl.textContent = error.message;
-  nextBtn.disabled = true;
-  copyBtn.disabled = true;
+  setStatus('Unable to load questions.csv.');
+
+  if (questionEl) {
+    questionEl.textContent = error.message;
+  }
+
+  if (nextBtn) {
+    nextBtn.disabled = true;
+  }
+
+  if (copyBtn) {
+    copyBtn.disabled = true;
+  }
+
   refreshCounter();
 });
