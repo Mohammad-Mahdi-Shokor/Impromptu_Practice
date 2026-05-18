@@ -62,9 +62,10 @@ body::before {
 
 .language-buttons {
   display: flex;
-  gap: 1.5rem;
+  flex-direction: column;
+  gap: 2rem;
   justify-content: center;
-  flex-wrap: wrap;
+  align-items: center;
 }
 
 .language-buttons button {
