@@ -1,10 +1,14 @@
+const languageSelector = document.getElementById('languageSelector');
+const mainApp = document.getElementById('mainApp');
+const englishBtn = document.getElementById('englishBtn');
+const arabicBtn = document.getElementById('arabicBtn');
 const statusEl = document.getElementById('status');
 const counterEl = document.getElementById('counter');
 const questionEl = document.getElementById('question');
 const nextBtn = document.getElementById('nextBtn');
 const copyBtn = document.getElementById('copyBtn');
 
-const QUESTIONS_URL = './questions.csv';
+let QUESTIONS_URL = './questions.csv';
 
 let questions = [];
 let shuffledQuestions = [];
@@ -108,6 +112,49 @@ async function loadQuestions() {
   refreshCounter();
 }
 
+function selectLanguage(language) {
+  if (language === 'arabic') {
+    QUESTIONS_URL = './arabic.csv';
+    mainApp.classList.add('arabic-mode');
+    nextBtn.textContent = 'سؤال جديد';
+    copyBtn.textContent = 'نسخ السؤال';
+  } else {
+    QUESTIONS_URL = './questions.csv';
+    mainApp.classList.remove('arabic-mode');
+    nextBtn.textContent = 'New question';
+    copyBtn.textContent = 'Copy question';
+  }
+  
+  languageSelector.style.display = 'none';
+  mainApp.style.display = 'block';
+  
+  loadQuestions().catch((error) => {
+    setStatus('Unable to load questions file.');
+
+    if (questionEl) {
+      questionEl.textContent = error.message;
+    }
+
+    if (nextBtn) {
+      nextBtn.disabled = true;
+    }
+
+    if (copyBtn) {
+      copyBtn.disabled = true;
+    }
+
+    refreshCounter();
+  });
+}
+
+if (englishBtn) {
+  englishBtn.addEventListener('click', () => selectLanguage('english'));
+}
+
+if (arabicBtn) {
+  arabicBtn.addEventListener('click', () => selectLanguage('arabic'));
+}
+
 if (nextBtn) {
   nextBtn.addEventListener('click', nextQuestion);
 }
@@ -117,26 +164,10 @@ if (copyBtn) {
 }
 
 document.addEventListener('keydown', (event) => {
-  if (event.key === ' ' || event.key === 'Enter') {
-    event.preventDefault();
-    nextQuestion();
+  if (mainApp.style.display !== 'none') {
+    if (event.key === ' ' || event.key === 'Enter') {
+      event.preventDefault();
+      nextQuestion();
+    }
   }
-});
-
-loadQuestions().catch((error) => {
-  setStatus('Unable to load questions.csv.');
-
-  if (questionEl) {
-    questionEl.textContent = error.message;
-  }
-
-  if (nextBtn) {
-    nextBtn.disabled = true;
-  }
-
-  if (copyBtn) {
-    copyBtn.disabled = true;
-  }
-
-  refreshCounter();
 });

@@ -13,24 +13,31 @@
   </head>
   <body>
     <main class="shell">
-      <section class="hero">
-        <h1>Impromptu speaking practice</h1>
-        
+      <section id="languageSelector" class="hero language-screen">
+        <h1>Impromptu Speaking Practice</h1>
+        <p class="language-prompt">Select your language:</p>
+        <div class="language-buttons">
+          <button id="englishBtn" class="primary" type="button">English</button>
+          <button id="arabicBtn" class="primary" type="button">العربية</button>
+        </div>
       </section>
 
-      <section class="panel" aria-label="Random question practice area">
-        
+      <section id="mainApp" class="app-content" style="display: none;">
+        <section class="hero">
+          <h1>Impromptu speaking practice</h1>
+        </section>
 
-        <article class="card" aria-live="polite" aria-atomic="true">
-          <!-- <p class="card__label">Your question</p> -->
-          <h2 id="question">Preparing your first prompt…</h2>
-        </article>
+        <section class="panel" aria-label="Random question practice area">
+          <article class="card" aria-live="polite" aria-atomic="true">
+            <!-- <p class="card__label">Your question</p> -->
+            <h2 id="question">Preparing your first prompt…</h2>
+          </article>
 
-        <div class="controls">
-          <button id="nextBtn" class="primary" type="button" disabled>New question</button>
-          <button id="copyBtn" class="secondary" type="button" disabled>Copy question</button>
-        </div>
-
+          <div class="controls">
+            <button id="nextBtn" class="primary" type="button" disabled>New question</button>
+            <button id="copyBtn" class="secondary" type="button" disabled>Copy question</button>
+          </div>
+        </section>
       </section>
     </main>
   </body>

@@ -48,6 +48,33 @@ body::before {
   display: grid;
   align-content: center;
   justify-items: center;
+}
+
+.language-screen {
+  text-align: center;
+}
+
+.language-prompt {
+  font-size: 1.25rem;
+  color: var(--muted);
+  margin: 2rem 0 2.5rem;
+}
+
+.language-buttons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.language-buttons button {
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
+  width: 150px;
+}
+
+.app-content.arabic-mode .hero {
+  display: none;
   gap: 32px;
   padding: 20px 0;
 }
