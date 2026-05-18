@@ -8,7 +8,12 @@ const questionEl = document.getElementById('question');
 const nextBtn = document.getElementById('nextBtn');
 const copyBtn = document.getElementById('copyBtn');
 
-let QUESTIONS_URL = './questions.csv';
+// Get the base path for GitHub Pages compatibility
+const basePath = window.location.pathname.includes('/Impromptu/') 
+  ? '/Impromptu/' 
+  : './';
+
+let QUESTIONS_URL = basePath + 'questions.csv';
 
 let questions = [];
 let shuffledQuestions = [];
@@ -114,12 +119,12 @@ async function loadQuestions() {
 
 function selectLanguage(language) {
   if (language === 'arabic') {
-    QUESTIONS_URL = './arabic.csv';
+    QUESTIONS_URL = basePath + 'arabic.csv';
     mainApp.classList.add('arabic-mode');
     nextBtn.textContent = 'سؤال جديد';
     copyBtn.textContent = 'نسخ السؤال';
   } else {
-    QUESTIONS_URL = './questions.csv';
+    QUESTIONS_URL = basePath + 'questions.csv';
     mainApp.classList.remove('arabic-mode');
     nextBtn.textContent = 'New question';
     copyBtn.textContent = 'Copy question';
