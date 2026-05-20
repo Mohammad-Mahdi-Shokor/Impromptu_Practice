@@ -81,7 +81,8 @@ body::before {
 }
 
 .hero {
-  max-width: 720px;
+  width: min(100%, 720px);
+  margin-inline: auto;
   text-align: center;
 }
 
@@ -172,7 +173,11 @@ h1 {
 #question {
   font-size: clamp(1.8rem, 3.3vw, 3rem);
   line-height: 1.12;
+  width: min(100%, 50ch);
   max-width: 50ch;
+  justify-self: center;
+  text-align: center;
+  overflow-wrap: anywhere;
 }
 
 .controls {
